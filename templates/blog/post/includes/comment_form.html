@@ -1,13 +1,43 @@
-<h2>Add a new comment</h2>
-<form action="{% url 'blog:post_comment' post.id %}" method="post">
- {% comment %} {{ form.as_p }} {% endcomment %}
- <div class="left">
-    {{ form.name.as_field_group }}
+<div class="bg-light text-dark p-4 card shadow-sm">
+
+<h2 class="mb-4">Add a New Comment</h2>
+<form action="{% url 'blog:post_comment' post.id %}" method="post" class="border-0 ">
+    {% csrf_token %}
+    <div class="row g-2">
+        <div class="col-md-6">
+            <label for="{{ form.name.id_for_label }}" class="form-label text-dark">Name</label>
+            <input type="text" name="{{ form.name.name }}" id="{{ form.name.id_for_label }}"
+                   class="form-control bg-light text-dark border-secondary"
+                   value="{{ form.name.value|default:'' }}"
+                   placeholder="Your name">
+            {% if form.name.errors %}
+                <div class="text-danger small">{{ form.name.errors }}</div>
+            {% endif %}
+        </div>
+        <div class="col-md-6">
+            <label for="{{ form.email.id_for_label }}" class="form-label text-dark">Email</label>
+            <input type="email" name="{{ form.email.name }}" id="{{ form.email.id_for_label }}"
+                   class="form-control bg-light text-dark border-secondary"
+                   value="{{ form.email.value|default:'' }}"
+                   placeholder="Your email">
+            {% if form.email.errors %}
+                <div class="text-danger small">{{ form.email.errors }}</div>
+            {% endif %}
+        </div>
+        <div class="col-12">
+            <label for="{{ form.body.id_for_label }}" class="form-label text-dark">Comment</label>
+            <textarea name="{{ form.body.name }}" id="{{ form.body.id_for_label }}"
+                      class="form-control bg-light text-dark border-secondary"
+                      rows="4" placeholder="Your comment">{{ form.body.value|default:'' }}</textarea>
+            {% if form.body.errors %}
+                <div class="text-danger small">{{ form.body.errors }}</div>
+            {% endif %}
+        </div>
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-paper-plane me-1"></i> Add Comment
+            </button>
+        </div>
     </div>
-    <div class="left">
-    {{ form.email.as_field_group }}
-    </div>
-    {{ form.body.as_field_group }}
- {% csrf_token %}
- <p><input type="submit" value="Add comment"></p>
 </form>
+</div>

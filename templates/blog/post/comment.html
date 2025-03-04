@@ -1,10 +1,22 @@
 {% extends "blog/base.html" %}
-{% block title %}Add a comment{% endblock %}
+{% block title %}Add a Comment{% endblock %}
 {% block content %}
- {% if comment %}
- <h2>Your comment has been added.</h2>
- <p><a href="{{ post.get_absolute_url }}">Back to the post</a></p>
- {% else %}
- {% include "blog/post/includes/comment_form.html" %}
- {% endif %}
+    <div class="container py-4">
+        {% if comment %}
+            <!-- Success Message -->
+            <div class="card bg-dark text-light border-0 shadow-sm mb-4">
+                <div class="card-body text-center">
+                    <h2 class="card-title mb-3">Your Comment Has Been Added!</h2>
+                    <p class="card-text">
+                        <a href="{{ post.get_absolute_url }}" class="btn btn-outline-info">
+                            <i class="fas fa-arrow-left me-1"></i> Back to the Post
+                        </a>
+                    </p>
+                </div>
+            </div>
+        {% else %}
+            <!-- Comment Form -->
+            {% include "blog/post/includes/comment_form.html" %}
+        {% endif %}
+    </div>
 {% endblock %}

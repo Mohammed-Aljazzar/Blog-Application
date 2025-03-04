@@ -1,17 +1,53 @@
 {% extends "blog/base.html" %}
-{% block title %}Share a post{% endblock %}
+{% block title %}Share a Post{% endblock %}
 {% block content %}
- {% if sent %}
- <h1>E-mail successfully sent</h1>
- <p>
- "{{ post.title }}" was successfully sent to {{ form.cleaned_data.to }}.
- </p>
- {% else %}
- <h1>Share "{{ post.title }}" by e-mail</h1>
- <form method="post">
- {{ form.as_p }}
- {% csrf_token %}
- <input type="submit" value="Send e-mail">
-</form>
-{% endif %}
+    <div class="container py-4">
+        {% if sent %}
+            <!-- Success Message -->
+            <div class="card bg-dark text-light border-1 shadow-sm mb-4" style="border: 1px solid #fff;">
+                <div class="card-body text-center">
+                    <h1 class="card-title mb-3">E-mail Successfully Sent</h1>
+                    <p class="card-text">
+                        "{{ post.title }}" was successfully sent to <strong>{{ form.cleaned_data.to }}</strong>.
+                    </p>
+                    <a href="{{ post.get_absolute_url }}" class="btn btn-outline-info mt-3">
+                        <i class="fas fa-arrow-left me-1"></i> Back to Post
+                    </a>
+                </div>
+            </div>
+        {% else %}
+            <!-- Share Form -->
+            <div class="card bg-dark text-light border-1 shadow-sm" style="border: 1px solid #fff;">
+                <div class="card-body">
+                    <h1 class="card-title h3 mb-4">Share "{{ post.title }}" by E-mail</h1>
+                    <form method="post" class="text-light">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-envelope me-1"></i> Send E-mail
+                        </button>
+                    </form>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Custom CSS for light labels -->
+    <style>
+        .card form p label {
+            color: #f8f9fa; /* Light color for labels */
+        }
+        .card form p input,
+        .card form p textarea {
+            background-color: #343a40;
+            color: #f8f9fa;
+            border-color: #6c757d;
+        }
+        .card form p input:focus,
+        .card form p textarea:focus {
+            background-color: #343a40;
+            border-color: #fff;
+            box-shadow: 0 0 0 0.2rem rgba(23, 162, 184, 0.25);
+        }
+    </style>
 {% endblock %}

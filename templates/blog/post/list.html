@@ -1,18 +1,31 @@
 {% extends "blog/base.html" %}
 {% block title %}My Blog{% endblock %}
 {% block content %}
- <h1>My Blog</h1>
- {% for post in posts %}
- <h2>
- {% comment %} <a href="{% url 'blog:post_detail' post.id %}"> {% endcomment %}
- <a href="{{post.get_absolute_url}}">
- {{ post.title }}
- </a>
- </h2>
- <p class="date">
- Published {{ post.publish }} by {{ post.author }}
- </p>
- {{ post.body|truncatewords:30|linebreaks }}
- {% endfor %}
- {% include "blog/pagination.html" with page=page_obj %}
+    <h1 class="mb-4 text-center text-md-start">My Blog</h1>
+    <div class="row gy-4">
+        {% for post in posts %}
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="card h-100 bg-dark text-light border-0 shadow-sm bg-white text-dark">
+                    <div class="card-body">
+                        <h2 class="card-title h5 mb-3">
+                            <a href="{{ post.get_absolute_url }}" class="text-decoration-none text-info">
+                                {{ post.title }}
+                            </a>
+                        </h2>
+                        <p class="card-text text-muted small mb-2">
+                            <i class="fas fa-calendar-alt me-1"></i> Published {{ post.publish }} by {{ post.author }}
+                        </p>
+                        <p class="card-text">
+                            {{ post.body|truncatewords:30|linebreaks }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12">
+                <p class="text-muted text-center">No posts available yet.</p>
+            </div>
+        {% endfor %}
+    </div>
+    {% include "blog/pagination.html" with page=page_obj %}
 {% endblock %}

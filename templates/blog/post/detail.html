@@ -1,31 +1,53 @@
 {% extends "blog/base.html" %}
 {% block title %}{{ post.title }}{% endblock %}
 {% block content %}
- <h1>{{ post.title }}</h1>
- <p class="date">
- Published {{ post.publish }} by {{ post.author }}
- </p>
- {{ post.body|linebreaks }}
- <p>
-    <a href="{% url 'blog:post_share' post.id %}">
-        Share this post
-    </a>
-</p>
-{% with comments.count as total_comments %}
-<h2>
-{{ total_comments }} comment{{ total_comments|pluralize }}
-</h2>
-{% endwith %}
-{% for comment in comments %}
- <div class="comment">
- <p class="info">
- Comment {{ forloop.counter }} by {{ comment.name }}
- {{ comment.created }}
- </p>
- {{ comment.body|linebreaks }}
- </div>
- {% empty %}
- <p>There are no comments.</p>
- {% endfor %}
- {% include "blog/post/includes/comment_form.html" %}
+    <div class="container py-4">
+        <!-- Post Content -->
+        <div class="card bg-dark text-light border-1 shadow-sm mb-4" style="border: 1px solid #555;">
+            <div class="card-body">
+                <h1 class="card-title mb-3">{{ post.title }}</h1>
+                <p class="card-text text-muted small mb-4">
+                    <i class="fas fa-calendar-alt me-1"></i> Published {{ post.publish }} by {{ post.author }}
+                </p>
+                <div class="card-text">
+                    {{ post.body|linebreaks }}
+                </div>
+                <p class="mt-4">
+                    <a href="{% url 'blog:post_share' post.id %}" class="btn btn-outline-info btn-sm">
+                        <i class="fas fa-share-alt me-1"></i> Share this post
+                    </a>
+                </p>
+            </div>
+        </div>
+
+        <!-- Comments Section -->
+        {% with comments.count as total_comments %}
+            <h2 class="mb-4">
+                {{ total_comments }} Comment{{ total_comments|pluralize }}
+            </h2>
+        {% endwith %}
+
+        <div class="comments">
+            {% for comment in comments %}
+                <div class="card bg-dark text-light border-1 shadow-sm mb-3" style="border: 1px solid #fff;">
+                    <div class="card-body">
+                        <p class="card-text text-muted small mb-2">
+                            <i class="fas fa-comment me-1"></i> Comment {{ forloop.counter }} by {{ comment.name }}
+                            <span class="ms-2">{{ comment.created }}</span>
+                        </p>
+                        <p class="card-text">
+                            {{ comment.body|linebreaks }}
+                        </p>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="alert alert-info" role="alert">
+                    <i class="fas fa-info-circle me-1"></i> There are no comments yet.
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Comment Form -->
+        {% include "blog/post/includes/comment_form.html" %}
+    </div>
 {% endblock %}
