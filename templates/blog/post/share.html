@@ -4,23 +4,23 @@
     <div class="container py-4">
         {% if sent %}
             <!-- Success Message -->
-            <div class="card bg-dark text-light border-1 shadow-sm mb-4" style="border: 1px solid #fff;">
+            <div class="card mb-4">
                 <div class="card-body text-center">
                     <h1 class="card-title mb-3">E-mail Successfully Sent</h1>
                     <p class="card-text">
-                        "{{ post.title }}" was successfully sent to <strong>{{ form.cleaned_data.to }}</strong>.
+                        "<span style="color:rgb(253, 79, 90);">{{ post.title }}</span>" was successfully sent to <strong style="color:rgb(253, 79, 90);">{{ form.cleaned_data.to }}</strong>.
                     </p>
-                    <a href="{{ post.get_absolute_url }}" class="btn btn-outline-info mt-3">
+                    <a href="{{ post.get_absolute_url }}" class="btn btn-outline-danger text-dark text-decoration-none mt-3">
                         <i class="fas fa-arrow-left me-1"></i> Back to Post
                     </a>
                 </div>
             </div>
         {% else %}
             <!-- Share Form -->
-            <div class="card bg-dark text-light border-1 shadow-sm" style="border: 1px solid #fff;">
+            <div class="card">
                 <div class="card-body">
-                    <h1 class="card-title h3 mb-4">Share "{{ post.title }}" by E-mail</h1>
-                    <form method="post" class="text-light">
+                    <h1 class="card-title h3 mb-4">Share "<span style="color: #ff69b4;">{{ post.title }}</span>" by E-mail</h1>
+                    <form method="post">
                         {% csrf_token %}
                         {{ form.as_p }}
                         <button type="submit" class="btn btn-primary">
@@ -32,22 +32,26 @@
         {% endif %}
     </div>
 
-    <!-- Custom CSS for light labels -->
+    <!-- Custom CSS for form styling -->
     <style>
         .card form p label {
-            color: #f8f9fa; /* Light color for labels */
+            color: #333; /* لون الـ labels رمادي غامق */
+            font-weight: 500;
         }
         .card form p input,
         .card form p textarea {
-            background-color: #343a40;
-            color: #f8f9fa;
-            border-color: #6c757d;
+            background-color: #fff; /* خلفية بيضاء */
+            color: #333; /* نص رمادي غامق */
+            border-color: #ddd; /* حدود خفيفة */
+            border-radius: 5px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
         }
         .card form p input:focus,
         .card form p textarea:focus {
-            background-color: #343a40;
-            border-color: #fff;
-            box-shadow: 0 0 0 0.2rem rgba(23, 162, 184, 0.25);
+            background-color: #fff;
+            border-color: #007bff; /* حدود زرقاء عند الـ focus */
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* ظل أزرق خفيف */
+            outline: none;
         }
     </style>
 {% endblock %}
