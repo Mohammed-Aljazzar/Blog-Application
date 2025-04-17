@@ -1,3 +1,4 @@
+{% load blog_tags %} 
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -48,10 +49,23 @@
                     <div class="card p-3">
                         <h2 class="fw-bold">My Blog</h2>
                         <p>Welcome to my blog! Explore various topics and enjoy reading.</p>
+                        <p>I've written {% total_posts %} posts so far.</p>
+                        <h4 class="text-primary">Latest posts</h4>
+                        {% show_latest_posts 3 %}
+
+                        <h4 class="text-primary">Most commented posts</h4>
+                        {% get_most_commented_posts as most_commented_posts %}
+                        <ul>
+                            {% for post in most_commented_posts %}
+                                <li>
+                                    <a style="color: black;" href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+                                 </li>
+                            {% endfor %}
+                        </ul>
                     </div>
                 </div>
             </div>
-
+    
             <!-- Main content (left side) -->
             <div class="col-12 col-md-8 order-md-0">
                 {% block content %}{% endblock %}
