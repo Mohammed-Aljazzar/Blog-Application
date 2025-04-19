@@ -3,7 +3,6 @@
 {% block content %}
     <div class="container py-4">
         {% if sent %}
-            <!-- Success Message -->
             <div class="card mb-4">
                 <div class="card-body text-center">
                     <h1 class="card-title mb-3">E-mail Successfully Sent</h1>
@@ -16,10 +15,12 @@
                 </div>
             </div>
         {% else %}
-            <!-- Share Form -->
             <div class="card">
                 <div class="card-body">
                     <h1 class="card-title h3 mb-4">Share "<span style="color: #ff69b4;">{{ post.title }}</span>" by E-mail</h1>
+                    {% if error %}
+                        <div class="alert alert-danger">{{ error }}</div>
+                    {% endif %}
                     <form method="post">
                         {% csrf_token %}
                         {{ form.as_p }}
@@ -31,26 +32,25 @@
             </div>
         {% endif %}
     </div>
-
     <!-- Custom CSS for form styling -->
     <style>
         .card form p label {
-            color: #333; /* لون الـ labels رمادي غامق */
+            color: #333;
             font-weight: 500;
         }
         .card form p input,
         .card form p textarea {
-            background-color: #fff; /* خلفية بيضاء */
-            color: #333; /* نص رمادي غامق */
-            border-color: #ddd; /* حدود خفيفة */
+            background-color: #fff;
+            color: #333;
+            border-color: #ddd;
             border-radius: 5px;
             transition: border-color 0.3s ease, box-shadow 0.3s ease;
         }
         .card form p input:focus,
         .card form p textarea:focus {
             background-color: #fff;
-            border-color: #007bff; /* حدود زرقاء عند الـ focus */
-            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* ظل أزرق خفيف */
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
             outline: none;
         }
     </style>
