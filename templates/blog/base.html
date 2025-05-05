@@ -54,6 +54,9 @@
                         <h2 class="fw-bold">My Blog</h2>
                         <p>Welcome to my blog! Explore various topics and enjoy reading.</p>
                         <p>I've written {% total_posts %} posts so far.</p>
+                        <p>
+                            <a href="{% url 'blog:post_feed' %}">Subscribe to my RSS feed </a>   
+                        </p>
                         <h4 class="text-primary">Latest posts</h4>
                         {% show_latest_posts 3 %}
 
