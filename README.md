@@ -50,12 +50,12 @@ The Blog App is a feature-rich Django web application designed for creating, man
 - **Security:**
   - Environment variable management with python-decouple for sensitive data (e.g., email credentials, database settings).
   - CSRF protection for all forms.
-  - Secure PostgreSQL database configuration.
+  - Secure PostgreSQL database configuration via Docker.
 
 ## Requirements
 - Python 3.13+
 - Django 5.0.11
-- PostgreSQL (with pg_trgm extension for trigram search)
+- Docker and Docker Compose (for PostgreSQL)
 - Bootstrap 5.3 (via CDN)
 - Font Awesome 6.0 (via CDN)
 - python-decouple for environment variables
@@ -89,38 +89,39 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 ``` bash
 pip install -r requirements.txt
 ```
-
-4. **Configure Environment Variables:**
+4. **Install Docker**
+5. **Set Up PostgreSQL with Docker:**
+   - Using Docker Command: Run a PostgreSQL container:
+   ``` bash
+   docker run --name blog-postgres -e POSTGRES_USER=bloguser -e POSTGRES_PASSWORD=blogpass -e 
+   POSTGRES_DB=blogdb -p 5432:5432 -d postgres:12
+   ```
+6. **Configure Environment Variables:**
   - Create a .env file in the project root:
 ``` bash
+DB_NAME=blogdb
+DB_USER=bloguser
+DB_PASSWORD=blogpass
+DB_HOST=localhost
+DB_PORT=5432
 EMAIL_HOST_USER=your-email@gmail.com
 EMAIL_HOST_PASSWORD=your-app-password
 DEFAULT_FROM_EMAIL="Your Name <your-email@gmail.com>"
 ```
 Generate an App Password from Google Account Settings if using Gmail SMTP.
 
-5. **Set Up PostgreSQL:**
- - Create a PostgreSQL database:
-``` bash
-psql -U your_db_user -c "CREATE DATABASE your_db_name;"
-```
- - Enable the pg_trgm extension for trigram search:
-``` bash
-psql -U your_db_user -d your_db_name -c "CREATE EXTENSION pg_trgm;"
-```
-
-6. **Apply Migrations:**
+7. **Apply Migrations:**
 ```
 python manage.py makemigrations
 python manage.py migrate
 ```
 
-7. **Create a Superuser (for admin access):**
+8. **Create a Superuser (for admin access):**
 ``` bash
 python manage.py createsuperuser
 ```
 
-8. **Run the Server:**
+9. **Run the Server:**
 ```
 python manage.py runserver
 ```
