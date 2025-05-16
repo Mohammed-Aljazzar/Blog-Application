@@ -40,6 +40,27 @@
             color:#000; !importance
             
         }
+        .search-btn {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 5px;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            transition: background-color 0.3s ease;
+            width: auto;
+        }
+        .search-btn:hover {
+            background-color: #0056b3;
+            color: #fff;
+            text-decoration: none;
+        }
+        .search-btn i {
+            margin-right: 8px;
+        }
+
         {% block style %}{% endblock %}
     </style>
 </head>
@@ -54,9 +75,13 @@
                         <h2 class="fw-bold">My Blog</h2>
                         <p>Welcome to my blog! Explore various topics and enjoy reading.</p>
                         <p>I've written {% total_posts %} posts so far.</p>
-                        <p>
-                            <a href="{% url 'blog:post_feed' %}">Subscribe to my RSS feed </a>   
-                        </p>
+                        <a href="{% url 'blog:post_search' %}" class="search-btn">
+                            <i class="fas fa-search"></i> Search Posts
+                        </a>
+                        <a href="{% url 'blog:post_feed' %}" class="search-btn bg-danger">
+                            <i class="fas fa-bell"></i> Subscribe to my RSS feed
+                        </a>
+
                         <h4 class="text-primary">Latest posts</h4>
                         {% show_latest_posts 3 %}
 
@@ -69,6 +94,8 @@
                                  </li>
                             {% endfor %}
                         </ul>
+                        
+
                     </div>
                 </div>
             </div>

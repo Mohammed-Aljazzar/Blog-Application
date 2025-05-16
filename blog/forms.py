@@ -13,4 +13,11 @@ class CommentForm(forms.ModelForm):
         fields = ['name', 'email', 'body']
 
 class SearchForm(forms.Form):
-    query = forms.CharField()
+    query = forms.CharField(
+        label='',
+        max_length=100,
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'search posts ...'
+        })
+    )

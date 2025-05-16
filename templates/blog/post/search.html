@@ -1,8 +1,154 @@
 {% extends "blog/base.html" %}
 {% load blog_tags %}
-{% block title %}Search{% endblock %}
+{% block title %}Search Posts{% endblock %}
+{% block style %}
+<style>
+    /* Container for search form and results */
+    .search-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    /* Search form card */
+    .search-form-card {
+        background-color: #fff;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin-bottom: 30px;
+    }
+
+    /* Search form */
+    .search-form {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    /* Input field */
+    .search-form .form-control {
+        padding: 12px 12px 12px 40px;
+        font-size: 1.1rem;
+        border: 1px solid #ced4da;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="%23777" class="bi bi-search" viewBox="0 0 16 16"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/></svg>');
+        background-repeat: no-repeat;
+        background-position: left 12px center;
+        background-size: 16px;
+    }
+
+    .search-form .form-control:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 10px rgba(0, 123, 255, 0.3);
+        outline: none;
+    }
+
+    .search-form .form-control::placeholder {
+        color: #6c757d;
+        font-style: italic;
+    }
+
+    /* Search button */
+    .search-form .btn-primary {
+        width: 100%;
+        padding: 12px;
+        font-size: 1.1rem;
+        border-radius: 8px;
+        background-color: #007bff;
+        border-color: #007bff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        transition: background-color 0.3s ease;
+    }
+
+    .search-form .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #0056b3;
+    }
+
+    /* Result cards */
+    .result-card {
+        background-color: #fff;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin-bottom: 20px;
+        transition: transform 0.2s ease;
+    }
+
+    .result-card:hover {
+        transform: translateY(-3px);
+    }
+
+    .result-card h4 {
+        margin-bottom: 10px;
+    }
+
+    .result-card h4 a {
+        color: #007bff;
+        font-size: 1.25rem;
+        transition: color 0.3s ease;
+    }
+
+    .result-card h4 a:hover {
+        color: #0056b3;
+        text-decoration: none;
+    }
+
+    .result-card .post-snippet {
+        color: #333;
+        font-size: 1rem;
+        line-height: 1.6;
+        margin-bottom: 10px;
+    }
+
+    .result-card .read-more {
+        color: #28a745;
+        font-weight: bold;
+    }
+
+    .result-card .read-more:hover {
+        text-decoration: underline;
+    }
+
+    /* No results message */
+    .no-results {
+        background-color: #f8f9fa;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 20px;
+        text-align: center;
+        color: #6c757d;
+    }
+
+    /* Responsive adjustments */
+    @media (min-width: 768px) {
+        .search-form {
+            flex-direction: row;
+            align-items: center;
+        }
+
+        .search-form .form-control {
+            margin-right: 10px;
+            border-radius: 8px 0 0 8px;
+        }
+
+        .search-form .btn-primary {
+            border-radius: 0 8px 8px 0;
+            width: auto;
+            min-width: 120px;
+        }
+    }
+</style>
+{% endblock %}
 {% block content %}
-<div class="container mt-5">
+<div class="container mt-5 search-container">
     {% if query %}
     <h1>Posts containing "{{ query }}"</h1>
     <h3>
@@ -11,24 +157,38 @@
         {% endwith %}
     </h3>
     {% for post in results %}
-    <h4>
-        <a href="{{ post.get_absolute_url }}">
-            {{ post.title }}
-        </a>
-    </h4>
-    {{ post.body|markdown|truncatewords_html:12 }}
-    {% empty %}
-    <p>There are no results for your query.</p>
-    {% endfor %}
-    <p><a href="{% url "blog:post_search" %}" class="btn btn-secondary">Search again</a></p>
-    {% else %}
-    <h1>Search for posts</h1>
-    <form method="get" class="search-form">
-        <div class="input-group mb-3">
-            {{ form.query }}
-            <button type="submit" class="btn btn-primary">Search</button>
+    <div class="result-card">
+        <h4>
+            <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+        </h4>
+        <div class="post-snippet">
+            {{ post.body|markdown|truncatewords_html:20 }}
         </div>
-    </form>
+        <a href="{{ post.get_absolute_url }}" class="read-more">Read more</a>
+    </div>
+    {% empty %}
+    <div class="no-results">
+        <p>No results found for your query "{{ query }}".</p>
+        <p>Try using different keywords or check your spelling.</p>
+    </div>
+    {% endfor %}
+    <p class="mt-4">
+        <a href="{% url 'blog:post_search' %}" class="btn btn-secondary">
+            <i class="fas fa-search me-2"></i> Search again
+        </a>
+    </p>
+    {% else %}
+    <div class="search-form-card">
+        <h1 class="mb-4">Search for Posts</h1>
+        <form method="get" class="search-form" aria-label="Search posts">
+            {{ form.query.errors }}
+            <input type="text" name="query" value="{{ form.query.value|default_if_none:'' }}" class="form-control"
+                placeholder="Find an post ..." aria-label="Search query" required>
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-search me-2"></i> Search
+            </button>
+        </form>
+    </div>
     {% endif %}
 </div>
 {% endblock %}
