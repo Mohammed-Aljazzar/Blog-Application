@@ -129,6 +129,27 @@ python manage.py runserver
  - Visit http://127.0.0.1:8000/ in your browser.
  - Access the admin panel at http://127.0.0.1:8000/admin/.
 
+## Screenshots
+ Below are screenshots showcasing key features of the Blog App:
+ - Homepage
+   
+    ![Home Page](screenshots/home.png)  
+    ![Home Page](screenshots/tag.png)
+   
+ - Search Page
+   
+    ![Search Page](screenshots/search1.png)  
+    ![Search Page](screenshots/search2.png)  
+   
+ - Share Post
+   
+    ![Share Post](screenshots/share1.png)  
+    ![Share Post](screenshots/share2.png)  
+   
+ - Post Detail Page
+   
+    ![Post Detail Page](screenshots/post.png)  
+
 ## Usage
 ### Creating and Managing Posts
  - Log in to the admin panel (/admin/) to create or edit posts.
